@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+<head>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="turn.min.js"></script>
+
+<style type="text/css">
+html{
+  height:100%;
+}
+body{
+	background:#ccc;
+	margin:0;
+	padding:0;
+  height:100%;
+}
+#magazine{
+	width:100%;
+	height:100%;
+  /*height:80%;*/
+}
+
+#magazine div{
+  background-size:cover;
+  background-repeat:no-repeat;
+}
+
+  .touch{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:9999;
+  }
+
+  .touch .prev,
+  .touch .next{
+    position:relative;
+    width:50%;
+    height:100%;
+    float:left;
+    /*background:yellow;*/
+    /*opacity:0.5;*/
+  }
+
+  .control{
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:90px;
+    background-color:white;
+    box-shadow: 5px;
+    z-index:999999;
+  }
+</style>
+</head>
+<body>
+
+<div id="magazine">
+    <div style="background-image:url(pages/01.jpg);"></div>
+    <div style="background-image:url(pages/02.jpg);"></div>
+    <div style="background-image:url(pages/03.jpg);"></div>
+    <div style="background-image:url(pages/04.jpg);"></div>
+    <div style="background-image:url(pages/05.jpg);"></div>
+    <div style="background-image:url(pages/06.jpg);"></div>
+</div>
+
+<div class="touch">
+  <div class="prev">p</div>
+  <div class="next">n</div>
+</div>
+
+<div class="control">
+  control
+</div>
+
+<script type="text/javascript">
+
+	$(window).ready(function() {
+		$('#magazine').turn({
+							display: 'double',
+							acceleration: true,
+							gradients: !$.isTouch,
+							elevation:50,
+							when: {
+								turned: function(e, page) {
+									//console.log('Current view: ', $(this).turn('view'));
+								}
+							}
+						});
+	});
+	
+	
+	$(window).bind('keydown', function(e){
+
+		if (e.keyCode==37)
+			$('#magazine').turn('previous');
+		else if (e.keyCode==39)
+			$('#magazine').turn('next');
+
+	});
+
+  $('.prev').on('click', function(e){
+    $('#magazine').turn('previous');
+  });
+
+  $('.next').on('click', function(e){
+    $('#magazine').turn('next');
+  });
+
+  $("#magazine").bind("first", function(event, pageObject, turned){
+    //alert('first');
+  });
+
+  $("#magazine").bind("last", function(event, pageObject, turned){
+    //alert('last');
+  });
+
+</script>
+
+</body>
+</html>
